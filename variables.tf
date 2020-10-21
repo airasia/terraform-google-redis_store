@@ -31,6 +31,12 @@ variable "name" {
   default     = "v1"
 }
 
+variable "full_name" {
+  description = "Full name of the redis instance. For backward-compatibility only. Not recommended for general use."
+  type        = string
+  default     = ""
+}
+
 variable "primary_zone" {
   description = "The zone to launch the redis instance in. Options are \"a\" or \"b\" or \"c\" or \"d\". Defaults to \"a\" zone of the Google provider's region if nothing is specified here. See https://cloud.google.com/compute/docs/regions-zones."
   type        = string
