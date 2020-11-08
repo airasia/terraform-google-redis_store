@@ -85,3 +85,9 @@ variable "dns_ttl" {
   type        = number
   default     = 300
 }
+
+variable "use_private_g_services" {
+  description = "Whether to use the VPC's PRIVATE_SERVICE_ACCESS connection mode (recommended). Setting this to \"true\" requires your VPC network (as specified in \"var.vpc_network\") to have its private services connection (also refered to as g_services) to be enabled. Setting this to \"false\" will use the VPC's 'DIRECT_PEERING' connection mode instead. See https://cloud.google.com/memorystore/docs/redis/networking#connection_modes"
+  type        = bool
+  default     = true
+}

@@ -49,7 +49,7 @@ resource "google_redis_instance" "redis_store" {
   region                  = local.region
   location_id             = local.primary_zone
   alternative_location_id = var.service_tier == "STANDARD_HA" ? local.alternate_zone : null
-  connect_mode            = "DIRECT_PEERING"
+  connect_mode            = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
   depends_on              = [google_project_service.redis_api]
   timeouts {
     create = var.redis_timeout
