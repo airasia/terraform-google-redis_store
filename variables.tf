@@ -75,7 +75,7 @@ variable "dns_zone_name" {
 }
 
 variable "dns_subdomain" {
-  description = "A private DNS subdomain over which the redis host maybe accessed. Requires \"var.dns_zone_name\" to be specified."
+  description = "A private DNS subdomain over which the redis host maybe accessed. This is disregarded if \"var.dns_zone_name\" is not specified."
   type        = string
   default     = "redis"
 }
