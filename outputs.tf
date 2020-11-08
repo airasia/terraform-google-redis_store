@@ -12,7 +12,7 @@ output "host_ip" {
 
 output "host_dns" {
   description = "Private DNS address of the Redis host"
-  value       = local.create_private_dns ? google_dns_record_set.redis_subdomain.0.name : null
+  value       = local.create_private_dns ? trimsuffix(google_dns_record_set.redis_subdomain.0.name, ".") : null
 }
 
 output "port" {
