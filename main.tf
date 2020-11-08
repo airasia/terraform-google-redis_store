@@ -34,6 +34,11 @@ resource "google_project_service" "redis_api" {
   disable_on_destroy = false
 }
 
+resource "google_project_service" "dns_api" {
+  service            = "dns.googleapis.com"
+  disable_on_destroy = false
+}
+
 resource "google_redis_instance" "redis_store" {
   name                    = local.memory_store_name
   memory_size_gb          = var.memory_size_gb
@@ -60,8 +65,10 @@ resource "google_dns_record_set" "redis_subdomain" {
   type         = "A"
   rrdatas      = [google_redis_instance.redis_store.host]
   ttl          = var.dns_ttl
+  depends_on   = [google_project_service.dns_api]
 }
 
 data "google_dns_managed_zone" "dns_zone" {
   name = var.dns_zone_name
+  depends_on   = [google_project_service.dns_api]
 }
