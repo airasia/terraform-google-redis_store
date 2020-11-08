@@ -22,6 +22,9 @@ locals {
   remaining_zone_letters = tolist(setsubtract(toset(local.all_zone_letters), toset([local.primary_zone_letter])))
   alternate_zone_letter  = var.alternate_zone == "" ? local.remaining_zone_letters.0 : var.alternate_zone
   alternate_zone         = "${local.region}-${local.alternate_zone_letter}"
+
+  # DNS
+  create_private_dns = var.dns_zone_name == "" ? false : true
 }
 
 data "google_client_config" "google_client" {}
@@ -48,4 +51,17 @@ resource "google_redis_instance" "redis_store" {
     update = var.redis_timeout
     delete = var.redis_timeout
   }
+}
+
+resource "google_dns_record_set" "redis_subdomain" {
+  count        = local.create_private_dns ? 1 : 0
+  managed_zone = var.dns_zone_name
+  name         = format("%s.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
+  type         = "A"
+  rrdatas      = [google_redis_instance.redis_store.host]
+  ttl          = var.dns_ttl
+}
+
+data "google_dns_managed_zone" "dns_zone" {
+  name = var.dns_zone_name
 }

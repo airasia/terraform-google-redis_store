@@ -10,6 +10,11 @@ output "host" {
   value       = google_redis_instance.redis_store.host
 }
 
+output "host_dns" {
+  description = "Private DNS address of the Redis host"
+  value       = local.create_private_dns ? google_dns_record_set.redis_subdomain.0.name : null
+}
+
 output "port" {
   description = "Port number of the Redis endpoint."
   value       = google_redis_instance.redis_store.port

@@ -72,3 +72,21 @@ variable "redis_timeout" {
   type        = string
   default     = "10m"
 }
+
+variable "dns_zone_name" {
+  description = "OPTIONAL. Name of DNS zone to access the redis host over a private DNS subdomain instead of a private IP address."
+  type        = string
+  default     = ""
+}
+
+variable "dns_subdomain" {
+  description = "A private DNS subdomain over which the redis host maybe accessed. Requires \"var.dns_zone_name\" to be specified."
+  type        = string
+  default     = "redis"
+}
+
+variable "dns_ttl" {
+  description = "The time-to-live of the private DNS record set in seconds."
+  type        = number
+  default     = 300
+}
