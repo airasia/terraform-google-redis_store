@@ -16,11 +16,6 @@ variable "vpc_network" {
   type        = string
 }
 
-variable "ip_cidr_range" {
-  description = "A /29 IP CIDR block that will be reserved for the Redis MemoryStore."
-  type        = string
-}
-
 # ----------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # ----------------------------------------------------------------------------------------------------------------------
