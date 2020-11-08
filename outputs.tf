@@ -5,8 +5,8 @@ output "usage_IAM_roles" {
   ]
 }
 
-output "host" {
-  description = "Hostname (or IP address) of the Redis endpoint"
+output "host_ip" {
+  description = "Private IP address of the Redis host"
   value       = google_redis_instance.redis_store.host
 }
 
