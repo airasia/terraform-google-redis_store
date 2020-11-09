@@ -65,7 +65,6 @@ resource "google_dns_record_set" "redis_subdomain" {
   type         = "A"
   rrdatas      = [google_redis_instance.redis_store.host]
   ttl          = var.dns_ttl
-  depends_on   = [google_project_service.dns_api]
 }
 
 data "google_dns_managed_zone" "dns_zone" {
