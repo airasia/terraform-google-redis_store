@@ -68,6 +68,6 @@ resource "google_dns_record_set" "redis_subdomain" {
 }
 
 data "google_dns_managed_zone" "dns_zone" {
-  name = var.dns_zone_name
-  depends_on   = [google_project_service.dns_api]
+  name       = var.dns_zone_name
+  depends_on = [google_project_service.dns_api]
 }
