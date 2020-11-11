@@ -23,6 +23,10 @@ locals {
   alternate_zone_letter  = var.alternate_zone == "" ? local.remaining_zone_letters.0 : var.alternate_zone
   alternate_zone         = "${local.region}-${local.alternate_zone_letter}"
 
+  # Determine connection mode and IP ranges
+  connect_mode  = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
+  ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
+
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
@@ -49,8 +53,8 @@ resource "google_redis_instance" "redis_store" {
   region                  = local.region
   location_id             = local.primary_zone
   alternative_location_id = var.service_tier == "STANDARD_HA" ? local.alternate_zone : null
-  connect_mode            = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
-  reserved_ip_range       = var.use_private_g_services ? null : var.ip_cidr_range
+  connect_mode            = local.connect_mode
+  reserved_ip_range       = local.ip_cidr_range
   depends_on              = [google_project_service.redis_api]
   timeouts {
     create = var.redis_timeout
