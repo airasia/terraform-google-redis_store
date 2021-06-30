@@ -6,7 +6,7 @@ This upgrade recommends using Google VPC's `PRIVATE_SERVICE_ACCESS` connection m
 
 ### Minimiing customer impact during the upgrade process
 
-If you have setup a DNS address for the redis instance using `var.dns_zone_name` (available since `v2.1.0`), and if your applications are already using the redis instance's DNS address instead of its IP address to connect to it, then it should ideally be okay to proceed with this recommended upgrade. Notice, however, that as this will cause the redis instance to be destroyed and then re-created, the redis instance will certainly be unavailable during the upgrade (usually 10 minutes). You can minizmie potenaital customer impact during this upgrade process by letting your application temporarily bypass the redis cache and call your databases directly for this brief period of time.
+If you have setup a DNS address for the redis instance using `var.dns_zone_name` (available since `v2.1.0`), and if your applications are already using the redis instance's DNS address instead of its IP address to connect to it, then it should ideally be okay to proceed with this recommended upgrade. Notice, however, that as this will cause the redis instance to be destroyed and then re-created, the redis instance will certainly be unavailable during the upgrade (usually 10 minutes). You can minizmie potential customer impact during this upgrade process by letting your application temporarily bypass the redis cache and call your databases directly for this brief period of time.
 
 ### Byapssing these changes
 
