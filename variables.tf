@@ -97,3 +97,15 @@ variable "ip_cidr_range" {
   type        = string
   default     = ""
 }
+
+variable "auth_enabled" {
+  description = "Indicates whether OSS Redis AUTH is enabled for the instance. If set to true AUTH is enabled on the instance. Default value is false meaning AUTH is disabled."
+  type        = bool
+  default     = false
+}
+
+variable "auth_string" {
+  description = "AUTH String set on the instance. This field will only be populated if auth_enabled is true."
+  type        = string
+  default     = ""
+}
