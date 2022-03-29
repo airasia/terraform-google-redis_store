@@ -53,7 +53,6 @@ resource "google_redis_instance" "redis_store" {
   region                  = local.region
   location_id             = local.primary_zone
   auth_enabled            = var.auth_enabled
-  auth_string             = var.auth_string
   alternative_location_id = var.service_tier == "STANDARD_HA" ? local.alternate_zone : null
   connect_mode            = local.connect_mode
   reserved_ip_range       = local.ip_cidr_range
