@@ -1,5 +1,15 @@
 terraform {
   required_version = ">= 0.13.1" # see https://releases.hashicorp.com/terraform/
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 4.3.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = ">= 4.3.0" # see https://github.com/terraform-providers/terraform-provider-google-beta/releases
+    }
+  }
 }
 
 locals {
@@ -27,8 +37,8 @@ locals {
   connect_mode  = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
   ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
   # Read-replica for Redis memorystore
-  redis_replicas_mode   = var.use_redis_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
-  redis_replica_count   = var.use_redis_replicas ? var.redis_replica_count : null
+  redis_replicas_mode = var.use_redis_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  redis_replica_count = var.use_redis_replicas ? var.redis_replica_count : null
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
