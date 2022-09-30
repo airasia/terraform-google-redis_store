@@ -69,7 +69,7 @@ variable "redis_timeout" {
 }
 
 variable "use_redis_replicas" {
-  description = "Whether to enable redis replicas or not. Read replica mode. Can only be specified when trying to create the instance. If not set, Memorystore Redis backend will default to READ_REPLICAS_DISABLED."
+  description = "Whether to enable redis replicas or not. Read replica mode. Can only be specified when trying to create the instance. If set to true, memory_size_gb variable value should be 5 or above"
   type        = bool
   default     = false
 }
