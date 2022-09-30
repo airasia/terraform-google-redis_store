@@ -3,11 +3,11 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 4.3.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
+      version = ">= 4.30.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
     }
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = ">= 4.3.0" # see https://github.com/terraform-providers/terraform-provider-google-beta/releases
+      version = ">= 4.30.0" # see https://github.com/terraform-providers/terraform-provider-google-beta/releases
     }
   }
 }
@@ -88,7 +88,7 @@ resource "google_dns_record_set" "redis_subdomain" {
 }
 
 resource "google_dns_record_set" "redis_read_replica_subdomain" {
-  count        = (local.create_private_dns == true && var.use_redis_replicas == true) ? 1 : 0
+  count        = var.use_redis_replicas ? 1 : 0
   managed_zone = var.dns_zone_name
   name         = format("%s.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
   type         = "A"
