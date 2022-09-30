@@ -88,9 +88,9 @@ resource "google_dns_record_set" "redis_subdomain" {
 }
 
 resource "google_dns_record_set" "redis_read_replica_subdomain" {
-  count        = var.use_redis_replicas ? 1 : 0
+  count        = local.create_private_dns ? (var.use_redis_replicas ? 1 : 0) : 0
   managed_zone = var.dns_zone_name
-  name         = format("%s.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
+  name         = format("%s-rr.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
   type         = "A"
   rrdatas      = [google_redis_instance.redis_store.read_endpoint]
   ttl          = var.dns_ttl
