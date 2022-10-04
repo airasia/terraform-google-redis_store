@@ -40,6 +40,7 @@ locals {
   # Read-replica settings
   replica_mode  = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
   replica_count = var.read_replicas_enabled ? var.read_replicas_count : null
+
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
