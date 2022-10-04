@@ -74,7 +74,7 @@ variable "read_replicas_enabled" {
   default     = false
 }
 
-variable "replica_count" {
+variable "read_replicas_count" {
   description = "The number of replica nodes. The valid range for the Standard Tier with read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled for a Standard Tier instance, the only valid value is 1 and the default is 1. The valid value for basic tier is 0 and the default is also 0."
   type        = number
   default     = 1

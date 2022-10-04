@@ -37,8 +37,8 @@ locals {
   connect_mode  = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
   ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
   # Read-replica for Redis memorystore
-  replicas_mode = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
-  replica_count = var.read_replicas_enabled ? var.replica_count : null
+  replica_mode = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  read_replicas_count = var.read_replicas_enabled ? var.read_replicas_count : null
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
@@ -69,8 +69,8 @@ resource "google_redis_instance" "redis_store" {
   connect_mode            = local.connect_mode
   reserved_ip_range       = local.ip_cidr_range
   depends_on              = [google_project_service.redis_api]
-  read_replicas_mode      = local.replicas_mode
-  replica_count           = local.replica_count
+  read_replicas_mode      = local.replica_mode
+  replica_count           = local.read_replicas_count
   timeouts {
     create = var.redis_timeout
     update = var.redis_timeout
