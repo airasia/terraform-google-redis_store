@@ -3,11 +3,11 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 4.30.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
+      version = ">= 4.38.0" # see https://github.com/terraform-providers/terraform-provider-google/releases
     }
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = ">= 4.30.0" # see https://github.com/terraform-providers/terraform-provider-google-beta/releases
+      version = ">= 4.38.0" # see https://github.com/terraform-providers/terraform-provider-google-beta/releases
     }
   }
 }
@@ -37,8 +37,8 @@ locals {
   connect_mode  = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
   ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
   # Read-replica for Redis memorystore
-  redis_replicas_mode = var.use_redis_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
-  redis_replica_count = var.use_redis_replicas ? var.redis_replica_count : null
+  replicas_mode = var.use_redis_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  replica_count = var.use_redis_replicas ? var.replica_count : null
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
@@ -69,8 +69,8 @@ resource "google_redis_instance" "redis_store" {
   connect_mode            = local.connect_mode
   reserved_ip_range       = local.ip_cidr_range
   depends_on              = [google_project_service.redis_api]
-  read_replicas_mode      = local.redis_replicas_mode
-  replica_count           = local.redis_replica_count
+  read_replicas_mode      = local.replicas_mode
+  replica_count           = local.replica_count
   timeouts {
     create = var.redis_timeout
     update = var.redis_timeout
@@ -90,7 +90,7 @@ resource "google_dns_record_set" "redis_subdomain" {
 resource "google_dns_record_set" "redis_read_replica_subdomain" {
   count        = local.create_private_dns ? (var.use_redis_replicas ? 1 : 0) : 0
   managed_zone = var.dns_zone_name
-  name         = format("%s-rr.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
+  name         = format("%s-replica.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
   type         = "A"
   rrdatas      = [google_redis_instance.redis_store.read_endpoint]
   ttl          = var.dns_ttl
