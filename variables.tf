@@ -68,7 +68,7 @@ variable "redis_timeout" {
   default     = "10m"
 }
 
-variable "use_redis_replicas" {
+variable "read_replicas_enabled" {
   description = "Whether to enable redis replicas or not. Read replica mode. Can only be specified when trying to create the instance. If set to true, memory_size_gb variable value should be 5 or above"
   type        = bool
   default     = false

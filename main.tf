@@ -37,8 +37,8 @@ locals {
   connect_mode  = var.use_private_g_services ? "PRIVATE_SERVICE_ACCESS" : "DIRECT_PEERING"
   ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
   # Read-replica for Redis memorystore
-  replicas_mode = var.use_redis_replicas ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
-  replica_count = var.use_redis_replicas ? var.replica_count : null
+  replicas_mode = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  replica_count = var.read_replicas_enabled ? var.replica_count : null
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
@@ -88,7 +88,7 @@ resource "google_dns_record_set" "redis_subdomain" {
 }
 
 resource "google_dns_record_set" "redis_read_replica_subdomain" {
-  count        = local.create_private_dns ? (var.use_redis_replicas ? 1 : 0) : 0
+  count        = local.create_private_dns ? (var.read_replicas_enabled ? 1 : 0) : 0
   managed_zone = var.dns_zone_name
   name         = format("%s-replica.%s", var.dns_subdomain, data.google_dns_managed_zone.dns_zone.dns_name)
   type         = "A"
