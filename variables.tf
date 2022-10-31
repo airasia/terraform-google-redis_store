@@ -65,7 +65,7 @@ variable "service_tier" {
 variable "redis_timeout" {
   description = "how long a redis operation is allowed to take before being considered a failure."
   type        = string
-  default     = "10m"
+  default     = "20m"
 }
 
 variable "read_replicas_enabled" {
