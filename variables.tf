@@ -51,7 +51,7 @@ variable "memory_size_gb" {
 }
 
 variable "redis_version" {
-  description = "The version of Redis software. See https://cloud.google.com/memorystore/docs/redis/supported-versions#current_versions."
+  description = "The version of Redis software. Acceptable values (at the time of this writing) are \"REDIS_3_0\", \"REDIS_4_0\", \"REDIS_5_0\", \"REDIS_6_X\". See https://cloud.google.com/memorystore/docs/redis/supported-versions#current_versions."
   type        = string
   default     = "REDIS_4_0"
 }
@@ -69,13 +69,13 @@ variable "redis_timeout" {
 }
 
 variable "read_replicas_enabled" {
-  description = "Whether to enable redis replicas or not. Read replica mode. Can only be specified when trying to create the instance. If set to true, memory_size_gb variable value should be 5 or above"
+  description = "Enabling read replaices requires \"var.service_tier\" to be  \"STANDARD_HA\", requires \"var.memory_size_gb\" to be 5 or above; requires \"var.redis_version\" to be \"REDIS_5_0\" or above. Once this attribute is enabled and applied, it cannot be disabled afterwards."
   type        = bool
   default     = false
 }
 
 variable "read_replicas_count" {
-  description = "The number of replica nodes. The valid range for the Standard Tier with read replicas enabled is [1-5] and defaults to 2. If read replicas are not enabled for a Standard Tier instance, the only valid value is 1 and the default is 1. The valid value for basic tier is 0 and the default is also 0."
+  description = "Acceptable avlues are between [1-5] (inclusive) only when \"var.read_replicas_enabled\" is set to \"true\" - otherwise ignored."
   type        = number
   default     = 1
 }
