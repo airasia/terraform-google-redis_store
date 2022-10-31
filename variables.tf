@@ -53,7 +53,7 @@ variable "memory_size_gb" {
 variable "redis_version" {
   description = "The version of Redis software. Acceptable values (at the time of this writing) are \"REDIS_3_0\", \"REDIS_4_0\", \"REDIS_5_0\", \"REDIS_6_X\". See https://cloud.google.com/memorystore/docs/redis/supported-versions#current_versions."
   type        = string
-  default     = "REDIS_4_0"
+  default     = "REDIS_6_X"
 }
 
 variable "service_tier" {
