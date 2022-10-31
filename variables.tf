@@ -78,6 +78,10 @@ variable "read_replicas_count" {
   description = "Acceptable avlues are between [1-5] (inclusive) only when \"var.read_replicas_enabled\" is set to \"true\" - otherwise ignored."
   type        = number
   default     = 1
+  validation {
+    condition     = (var.read_replicas_count >= 1) && (var.read_replicas_count <= 5)
+    error_message = "Allowed values are between 1-5 (inclusive)."
+  }
 }
 
 variable "dns_zone_name" {
