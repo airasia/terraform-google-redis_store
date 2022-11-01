@@ -41,6 +41,9 @@ locals {
   replica_mode  = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
   replica_count = var.read_replicas_enabled ? var.read_replicas_count : null
 
+  # secondary_ip_range is required when *changing* from "READ_REPLICAS_DISABLED" to "READ_REPLICAS_ENABLED"
+  secondary_ip_range = var.read_replicas_enabled ? "auto" : null
+
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
 }
@@ -70,6 +73,7 @@ resource "google_redis_instance" "redis_store" {
   alternative_location_id = var.service_tier == "STANDARD_HA" ? local.alternate_zone : null
   connect_mode            = local.connect_mode
   reserved_ip_range       = local.ip_cidr_range
+  secondary_ip_range      = local.secondary_ip_range
   depends_on              = [google_project_service.redis_api]
   read_replicas_mode      = local.replica_mode
   replica_count           = local.replica_count
