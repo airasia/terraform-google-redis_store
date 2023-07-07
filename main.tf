@@ -38,7 +38,7 @@ locals {
   ip_cidr_range = var.use_private_g_services ? null : var.ip_cidr_range
 
   # Read-replica settings
-  replica_mode  = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : "READ_REPLICAS_DISABLED"
+  replica_mode  = var.read_replicas_enabled ? "READ_REPLICAS_ENABLED" : null
   replica_count = var.read_replicas_enabled ? var.read_replicas_count : null
 
   # secondary_ip_range is required when *changing* from "READ_REPLICAS_DISABLED" to "READ_REPLICAS_ENABLED"
