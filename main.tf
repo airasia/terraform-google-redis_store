@@ -77,6 +77,7 @@ resource "google_redis_instance" "redis_store" {
   depends_on              = [google_project_service.redis_api]
   read_replicas_mode      = local.replica_mode
   replica_count           = local.replica_count
+  redis_configs           = var.redis_configs
   timeouts {
     create = var.redis_timeout
     update = var.redis_timeout

@@ -119,3 +119,9 @@ variable "auth_enabled" {
   type        = bool
   default     = false
 }
+
+variable "redis_configs" {
+  description = "Redis configuration parameters, according to http://redis.io/topics/config."
+  type        = map(string)
+  default     = null
+}
