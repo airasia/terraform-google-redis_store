@@ -121,7 +121,7 @@ variable "auth_enabled" {
 }
 
 variable "redis_configs" {
-  description = "Redis configuration parameters, according to http://redis.io/topics/config and https://cloud.google.com/memorystore/docs/redis/supported-redis-configurations"
+  description = "Redis configuration parameters, according to http://redis.io/topics/config and https://cloud.google.com/memorystore/docs/redis/supported-redis-configurations.  maxmemory-percent is not supported but if provided it is used to calculate  maxmemory-gb = memory_size_gb * maxmemory-percent / 100)"
   type        = map(string)
   default     = null
 }

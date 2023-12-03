@@ -46,6 +46,8 @@ locals {
 
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
+
+  modified_redis_config = { for k, v in var.redis_configs : "${k}" == "maxmemory-percent" ? "maxmemory-gb" : "${k}" => "${k}" == "maxmemory-percent" ? format("%.2f", var.memory_size_gb * tonumber(v) / 100) : "${v}" }
 }
 
 data "google_client_config" "google_client" {}
@@ -77,7 +79,7 @@ resource "google_redis_instance" "redis_store" {
   depends_on              = [google_project_service.redis_api]
   read_replicas_mode      = local.replica_mode
   replica_count           = local.replica_count
-  redis_configs           = var.redis_configs
+  redis_configs           = local.modified_redis_config
   timeouts {
     create = var.redis_timeout
     update = var.redis_timeout
