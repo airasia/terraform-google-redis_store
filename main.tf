@@ -55,7 +55,7 @@ locals {
     if config_key != "maxmemory-percent" #removing maxmemory-percent config key-value 
   }
   redis_configs = merge(
-    modified_redis_configs,
+    local.modified_redis_configs,
     {
       "maxmemory-gb" = local.redis_maxmemory_gb # Adding maxmemory-gb config key value
     }
