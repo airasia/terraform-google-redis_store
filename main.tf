@@ -46,7 +46,7 @@ locals {
 
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
-
+  #redis config 
   redis_maxmemory_percent = lookup(var.redis_configs, "maxmemory-percent", "100")
   redis_maxmemory_gb      = format("%.2f", var.memory_size_gb * tonumber(local.redis_maxmemory_percent) / 100)
   modified_redis_configs = {
