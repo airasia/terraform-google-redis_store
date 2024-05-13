@@ -46,6 +46,20 @@ locals {
 
   # DNS
   create_private_dns = var.dns_zone_name == "" ? false : true
+  #redis config 
+  redis_maxmemory_percent = lookup(var.redis_configs, "maxmemory-percent", "100")
+  redis_maxmemory_gb      = format("%.2f", var.memory_size_gb * tonumber(local.redis_maxmemory_percent) / 100)
+  modified_redis_configs = {
+    for config_key, config_value in var.redis_configs :
+    config_key => config_value
+    if config_key != "maxmemory-percent" #removing maxmemory-percent config key-value 
+  }
+  redis_configs = merge(
+    local.modified_redis_configs,
+    {
+      "maxmemory-gb" = local.redis_maxmemory_gb # Adding maxmemory-gb config key value
+    }
+  )
 }
 
 data "google_client_config" "google_client" {}
@@ -77,6 +91,7 @@ resource "google_redis_instance" "redis_store" {
   depends_on              = [google_project_service.redis_api]
   read_replicas_mode      = local.replica_mode
   replica_count           = local.replica_count
+  redis_configs           = local.redis_configs
   timeouts {
     create = var.redis_timeout
     update = var.redis_timeout

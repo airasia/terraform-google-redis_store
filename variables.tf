@@ -119,3 +119,14 @@ variable "auth_enabled" {
   type        = bool
   default     = false
 }
+
+variable "redis_configs" {
+  description = <<-EOT
+      Redis configuration parameters, according to http://redis.io/topics/config and https://cloud.google.com/memorystore/docs/redis/supported-redis-configurations.  
+      
+      "maxmemory-percent" is not supported but if provided it is used to calculate  maxmemory-gb = memory_size_gb * maxmemory-percent / 100)
+      
+    EOT
+  type        = map(string)
+  default     = {}
+}
