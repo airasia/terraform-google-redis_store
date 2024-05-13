@@ -128,5 +128,5 @@ variable "redis_configs" {
       
     EOT
   type        = map(string)
-  default     = null
+  default     = {}
 }
